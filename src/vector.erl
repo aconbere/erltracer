@@ -4,6 +4,9 @@
 
 -export([mult/2,
          sum/2,
+         divide/2,
+         magnitude/1,
+         unit/1,
          sum/1,
          sub/2,
          sub/1,
@@ -14,6 +17,11 @@ mult(X, Y) when is_list(X) and is_number(Y) ->
     [X1 * Y || X1 <- X];
 mult(X, Y) when is_number(X) and is_list(Y) ->
     mult(Y, X).
+
+divide(X, Y) when is_list(X) and is_number(Y) ->
+    [X1 / Y || X1 <- X];
+divide(X, Y) when is_number(X) and is_list(Y) ->
+    divide(Y, X).
 
 sum(X, Y) when is_list(X) and is_list(Y) ->
     [X1 + Y1 || {X1, Y1} <- lists:zip(X, Y)].
@@ -32,6 +40,12 @@ dot(X, Y) when is_list(X) and is_list(Y) ->
 
 cross([X1, X2, X3], [Y1, Y2, Y3]) ->
     [(X2 * Y3) - (X3 * Y2), (X3 * Y1) - (X1 * Y3), (X1 * Y2) - (X2 * Y1)].
+
+magnitude(X) ->
+    math:sqrt(dot(X, X)).
+
+unit(X) ->
+    divide(X, magnitude(X)).
 
 %% TESTS %%
 cross_test_() ->
@@ -58,3 +72,9 @@ mult_test_() ->
     [?_assert(mult([1,1,1], 4) == [4,4,4]),
      ?_assert(mult(4, [1,1,1]) == [4,4,4])
     ].
+
+unit_test_() ->
+    [?_assert(unit([0, 0, 1]) == [0,0,1])].
+
+magnitude_test_() ->
+    [?_assert(magnitude([1,1,1]) == math:sqrt(3))].

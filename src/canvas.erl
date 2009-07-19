@@ -15,7 +15,7 @@ get_corner([RVertical, RHorizontal], Center, VVector, HVector) ->
 
 make_screen([RVertical, RHorizontal], Center, VVector, HVector) ->
     Corner = get_corner([RVertical, RHorizontal], Center, VVector, HVector),
-    [[{vector:sub([Corner, vector:mult(VVector, V), vector:mult(HVector, H)])} ||
+    [[vector:sub([Corner, vector:mult(VVector, V), vector:mult(HVector, H)]) ||
         H <- lists:seq(1, RHorizontal)] ||
         V <- lists:seq(1, RVertical)].
 
